@@ -10,13 +10,26 @@ class Room {
 }
 class PokeMon {
     constructor(name) {
-        this.name = name;
+        this.name = name
+        this.maxHp = 20
         this.hp = 20;
-        this.attack = 10;
+        this.attack = 10
+        this.level = 0
         this.currentHp = this.hp;
+        this.currentXp = 0
+        this.xpToLevel = 100 
+        this.xpGiven = 50
     }
     isKod() {
         return this.currentHp < 1
+    }
+    levelUp() {
+        if (this.currentXp >= this.xpToLevel) {
+            this.level += 1
+            this.currentXp = this.currentXp - this.xpToLevel
+            this.xpToLevel += 100
+            alert(`Your ${this.name} leveled up to level ${this.level}`)
+        }
     }
 }
 class Enemy {
@@ -83,7 +96,7 @@ class User extends Enemy {
     }
     showStatus() {
         for (let poke of chuey.pokemon) {
-            alert(`${poke.name} ${poke.currentHp}`)
+            alert(`${poke.name}'s current hp: ${poke.currentHp}`)
         }
     }
     changeRoom() {
@@ -101,13 +114,17 @@ class User extends Enemy {
         
     }
     advanceRoom() {
+        const menu = document.querySelector('.menu-buttons')
         const buttons = document.querySelectorAll('button')
+        const trainButton = document.querySelector('#train')
+        trainButton.style.display = 'inline'
         buttons[0].innerText = 'Check Status'
-        buttons[1].innerText = 'Advance Rooms'
+        buttons[1].innerText = 'Heal'
         buttons[0].removeEventListener('click', chuey.attackFunction)
         buttons[1].removeEventListener('click', chuey.potionFunction)
         buttons[0].addEventListener('click',  chuey.showStatus)
-        buttons[1].addEventListener('click', chuey.changeRoom)
+        buttons[1].addEventListener('click', chuey.heal)
+        trainButton.addEventListener('click', chuey.train)
     }
     attackFunction(){
         console.log(chuey)
@@ -116,10 +133,14 @@ class User extends Enemy {
             //console.log(room.enemies.active.hp)
             if(chuey.currentRoom.enemies.active.isKod() && chuey.currentRoom.enemies.pokemon.length > 1){
                 alert(`defeated the enemies ${chuey.currentRoom.enemies.active.name}`)
+                chuey.active.currentXp += chuey.currentRoom.enemies.active.xpGiven
+                chuey.active.levelUp()
                 chuey.currentRoom.enemies.removeActive()
                 chuey.currentRoom.enemies.setActive()
                 chuey.currentRoom.enemies.attack(chuey)
             } else if (chuey.currentRoom.enemies.active.isKod()) {
+                chuey.active.currentXp += chuey.currentRoom.enemies.active.xpGiven
+                chuey.active.levelUp()
                 chuey.currentRoom.enemies.removeFromRoom()
                 chuey.advanceRoom()
             } else {
@@ -134,12 +155,28 @@ class User extends Enemy {
     battle() {
         const buttons = document.querySelectorAll('button');
         console.log(this.currentRoom.isCleared())
+        buttons[2].style.display = 'none'
         buttons[0].removeEventListener('click', chuey.showStatus)
         buttons[1].removeEventListener('click', chuey.changeRoom)
         buttons[0].innerText = 'attack'
         buttons[1].innerText = 'use potion'
         buttons[0].addEventListener('click', chuey.attackFunction) 
         buttons[1].addEventListener('click', chuey.potionFunction)
+    }
+    train() {
+        alert(`You trained your pokemon and they gained 100xp`)
+        for (let poke of chuey.pokemon) {
+            poke.currentXp += 100
+            poke.levelUp()
+        }
+        chuey.changeRoom()
+    }
+    heal() {
+        alert(`You healed your pokemon`)
+        for (let poke of chuey.pokemon) {
+            poke.currentHp = poke.hp
+        }
+        chuey.changeRoom()
     }
     }
     
