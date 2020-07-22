@@ -1,6 +1,6 @@
 @font-face{
     font-family: pokemon;
-    src: url('../PokemonGb-RAeo.ttf');
+    src: url('./PokemonGb-RAeo.ttf');
 }
 body {
     font-family: pokemon;
