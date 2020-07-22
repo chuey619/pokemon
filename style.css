@@ -1,10 +1,15 @@
-
+@font-face{
+    font-family: pokemon;
+    src: url('../PokemonGb-RAeo.ttf');
+}
 body {
+    font-family: pokemon;
     width: 100vw;
     height: 100vh;
     margin: 0 auto;
 }
 .container {
+    font-family: pokemon;
     width: 100%;
     height: 100%;
 }
@@ -26,9 +31,10 @@ body {
 }
 
 .menu {
+    font-family: pokemon;
     margin: 50px 100px;
     height: 30%;
-    font-size: 2rem;
+    font-size: 1rem;
     background-color: darkgrey;
 }
 
