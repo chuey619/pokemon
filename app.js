@@ -20,9 +20,16 @@ class PokeMon {
         this.xpToLevel = 100 
         this.xpGiven = 50
         this.type = type
+        if(this.type === 'fire') {
+            this.weakness = 'water'
+        } else if (this.type === 'water') {
+            this.weakness = 'grass'
+        } else if (this.type === 'grass') {
+            this.weakness = 'fire'
+        }
     }
     isKod() {
-        return this.currentHp < 1
+        return this.currentHp <= 0
     }
     getXP(xp) {
         this.currentXp += xp
@@ -58,9 +65,18 @@ class Enemy {
         }
     }
     attack(target) {
+        if(target.active.weakness === this.active.type) {
+            target.active.currentHp -= this.active.attack * 1.5
+            alert(`Super effective! The enemies ${this.active.name} attacked for ${this.active.attack *1.5} damage!`)
+        } else if (this.active.weakness === target.active.type) {
+            target.active.currentHp -= this.active.attack * .5
+            alert(`Not very effective! The enemies ${this.active.name} attacked for ${this.active.attack * .5} damage!`)
+        } else {
+            target.active.currentHp -= this.active.attack
+            alert(`The enemies ${this.active.name} attacked for ${this.active.attack} damage!`)
+        }
         
-        target.active.currentHp -= this.active.attack
-        alert(`The enemies ${this.active.name} attacked for ${this.active.attack} damage!`)
+       
         if (target.active.currentHp < 0) {
             target.active.currentHp = 0
         }
@@ -109,8 +125,17 @@ class User extends Enemy {
     
     }
     attack(target) {
-        target.active.currentHp -= this.active.attack
-        alert(`${chuey.active.name} attacked for ${chuey.active.attack} damage!`)
+        if(target.active.weakness === this.active.type) {
+            target.active.currentHp -= this.active.attack * 1.5
+            alert(`Super effective! Your ${this.active.name} attacked for ${this.active.attack * 1.5} damage!`)
+        } else if (this.active.weakness === target.active.type) {
+            target.active.currentHp -= this.active.attack * .5
+            alert(`Not very effective! Yours ${this.active.name} attacked for ${this.active.attack * .5} damage!`)
+        } else {
+            target.active.currentHp -= this.active.attack
+            alert(`Your ${this.active.name} attacked for ${this.active.attack} damage!`)
+        }
+        
         chuey.currentRoom.enemies.changeHp()
     }
     changeHp() {
@@ -142,6 +167,7 @@ class User extends Enemy {
         let screen = document.querySelector('.screen')
         if (roomI === rooms.length) {
             alert('you win!!!!!!')
+            endGame()
             return
         }
         chuey.currentRoom = rooms[roomI]
@@ -151,7 +177,7 @@ class User extends Enemy {
         chuey.currentRoom.enemies.changeHp()
         const enemyPokeImg = document.querySelector('.enemy img')
         
-        enemyPokeImg.setAttribute('src', this.active.img)
+        enemyPokeImg.setAttribute('src', this.currentRoom.enemies.active.img)
         chuey.battle()
     }
    
