@@ -62,23 +62,26 @@ class Enemy {
         target.active.currentHp -= this.active.attack
         alert(`The enemies ${this.active.name} attacked for ${this.active.attack} damage!`)
         if (target.active.currentHp < 0) {
-            target.currentHp = 0
+            target.active.currentHp = 0
         }
+        console.log(target.active.currentHp)
         target.changeHp()
+        if(target.gameOver()) {
+            endGame()
+        }
         
         //alert(`The ememies ${this.active.name} attacked your ${target.active.name} for ${this.active.attack} damage`)
     }
     changeHp() {
         const enemyHealthBar = document.querySelector('#enemy')
-        
         let percent =  (this.active.currentHp /  this.active.hp) * 100
         enemyHealthBar.style.width = percent + '%'
         enemyHealthBar.innerText = this.active.currentHp + '/' + this.active.hp
     }
     removeActive() {
         this.pokemon.splice(0, 1)
-        const enemyPoke = document.querySelector('.enemy img')
-        enemyPoke.setAttribute('src', '')
+        // const enemyPoke = document.querySelector('.enemy img')
+        // enemyPoke.setAttribute('src', '')
         }
     setActive() {
         const enemyPoke = document.querySelector('.enemy img')
@@ -106,12 +109,9 @@ class User extends Enemy {
     
     }
     attack(target) {
-        
         target.active.currentHp -= this.active.attack
         alert(`${chuey.active.name} attacked for ${chuey.active.attack} damage!`)
         chuey.currentRoom.enemies.changeHp()
-        
-       
     }
     changeHp() {
         const playerHealthBar = document.querySelector('#user')
@@ -120,7 +120,7 @@ class User extends Enemy {
         playerHealthBar.innerText = this.active.currentHp + '/' + this.active.hp
     }
     usePotion() {
-        if(this.potions) {
+    
             if(this.active.currentHp + 25 < this.active.hp) {
                 alert(`Healed your ${this.active.name} for 25 hp`)
                 this.active.currentHp += 25;
@@ -133,13 +133,12 @@ class User extends Enemy {
                 this.changeHp()
             }
             
-        } else {
-            alert(`all out of potions`)
-        }
+        
     }
     changeRoom() {
          
-        
+        const enemyPoke = document.querySelector('.enemy')
+        enemyPoke.style.display = 'block'
         let screen = document.querySelector('.screen')
         if (roomI === rooms.length) {
             alert('you win!!!!!!')
@@ -154,42 +153,35 @@ class User extends Enemy {
         
         enemyPokeImg.setAttribute('src', this.active.img)
         chuey.battle()
-           
     }
-    setActive(ind) {
-        chuey.active = chuey.pokemon[ind]
-        const myPoke = document.querySelector('.player img')
-        myPoke.setAttribute('src', chuey.active.img)
-        
-    }
+   
     advanceRoom() {
         const menu = document.querySelector('.menu-buttons')
-        const buttons = document.querySelectorAll('button')
+        const buttons = document.querySelectorAll('.menu')
         const trainButton = document.querySelector('#train')
         
         buttons[1].innerText = 'Heal'
         buttons[2].innerText = 'Train'
-        buttons[1].removeEventListener('click', chuey.attackFunction)
-        buttons[2].removeEventListener('click', chuey.potionFunction)
+        buttons[1].removeEventListener('click', chuey.potionFunction)
+        buttons[2].removeEventListener('click', chuey.attackFunction)
         buttons[0].addEventListener('click',  chuey.changeActive)
         buttons[1].addEventListener('click', chuey.heal)
         buttons[2].addEventListener('click', chuey.train)
     }
     attackFunction(){
+        if(chuey.active.isKod()) {
+            alert('You must switch pokemon or heal!!!')
+            return 
+        }
         console.log(chuey)
         const enemyPoke = document.querySelector('.enemy')
-        enemyPoke.style.display = 'block'
-        
         if (chuey.currentRoom.enemies != null) {
-            
             chuey.attack(chuey.currentRoom.enemies)
-            
             if(chuey.currentRoom.enemies.active.isKod() && chuey.currentRoom.enemies.pokemon.length > 1){
                 alert(`defeated the enemies ${chuey.currentRoom.enemies.active.name}`)
                 chuey.active.getXP(chuey.currentRoom.enemies.active.xpGiven)
                 chuey.currentRoom.enemies.removeActive()
                 chuey.currentRoom.enemies.setActive()
-                
             } else if (chuey.currentRoom.enemies.active.isKod()) {
                 chuey.active.getXP(chuey.currentRoom.enemies.active.xpGiven)
                 chuey.currentRoom.enemies.removeFromRoom()
@@ -203,14 +195,18 @@ class User extends Enemy {
     }
    
     potionFunction(){
-        chuey.usePotion()
-        chuey.currentRoom.enemies.attack(chuey)
+        if(chuey.potions) {
+            chuey.usePotion()
+            chuey.currentRoom.enemies.attack(chuey)
+        } else {
+            alert('all out of potions')
+        }
+        
     }
     battle() {
-        const buttons = document.querySelectorAll('button');
-        console.log(this.currentRoom.isCleared())
+        const buttons = document.querySelectorAll('.menu');
         buttons[0].addEventListener('click', chuey.changeActive)
-        buttons[1].removeEventListener('click', chuey.changeRoom)
+        buttons[1].removeEventListener('click', chuey.heal)
         buttons[2].removeEventListener('click', chuey.train)
         buttons[2].innerText = 'attack'
         buttons[1].innerText = 'use potion'
@@ -237,23 +233,59 @@ class User extends Enemy {
         const pokeTable = document.querySelector('.poke-menu')
         pokeTable.style.display = 'block'
         const rows = document.querySelectorAll('tr')
-        
+        const poke0 = document.querySelectorAll('#poke0 th')
+        const poke1 = document.querySelectorAll('#poke1 th')
+        const poke2 = document.querySelectorAll('#poke2 th')
+        poke0[0].innerText = `${chuey.pokemon[0].name}`
+        poke0[1].innerText = `${chuey.pokemon[0].level}`
+        poke0[2].innerText = `${chuey.pokemon[0].currentHp}`
+        poke0[3].innerText = `${chuey.pokemon[0].type}`
+        poke1[0].innerText = `${chuey.pokemon[1].name}`
+        poke1[1].innerText = `${chuey.pokemon[1].level}`
+        poke1[2].innerText = `${chuey.pokemon[1].currentHp}`
+        poke1[3].innerText = `${chuey.pokemon[1].type}`
+        poke2[0].innerText = `${chuey.pokemon[2].name}`
+        poke2[1].innerText = `${chuey.pokemon[2].level}`
+        poke2[2].innerText = `${chuey.pokemon[2].currentHp}`
+        poke2[3].innerText = `${chuey.pokemon[2].type}`
         rows.forEach(element => {
             console.log(element.id)
             if (element.id) {
                 element.addEventListener('click', (event) => {
-                    chuey.setActive(element.id)
-                    chuey.changeHp()
-                    pokeTable.style.display = 'none'
-                    alert(`Switched to ${chuey.active.name}`)
-                    if(chuey.currentRoom.enemies != null) {
-                        chuey.currentRoom.enemies.attack(chuey)
+                    let index = parseInt(element.id[4])
+                    console.log(index)
+                    if (chuey.active != chuey.pokemon[index]) {
+                        if(chuey.pokemon[index].isKod()) {
+                            alert('That pokemon is knocked out!')
+                            return
+                        } else {
+                            chuey.setActive(index)
+                            chuey.changeHp()
+                            pokeTable.style.display = 'none'
+                            alert(`Switched to ${chuey.active.name}`)
+                            if(chuey.currentRoom.enemies != null) {
+                                chuey.currentRoom.enemies.attack(chuey)
+                            } else {
+                                return
+                            }
+                        }
                     }
                 })
-            }
-            
+            }  
         });
+    }
+
+    setActive(ind) {
+        chuey.active = chuey.pokemon[ind]
+        const myPoke = document.querySelector('.player img')
+        myPoke.setAttribute('src', chuey.active.img)
+    }
+    gameOver() {
         
+        let output = this.pokemon.every((element) => {
+           return element.currentHp < 1;
+        })
+        return output
     }
     }
     
@@ -333,15 +365,25 @@ function roomBattle() {
       
 }
 function play() {
-       advanceRoom()
+    chuey.battle()
    
 }
 // console.log(chuey.currentRoom.isCleared(
+    // squirtle.currentHp = 0
+    // charmander.currentHp = 0
+    // bulbasoar.currentHp = 0
 
-for (let room of rooms) {
-    chuey.battle()
+function endGame() {
+    let container = document.querySelector('.container')
+    container.style.display = 'none'
+    let gameOverScreen = document.querySelector('.game-over')
+    gameOverScreen.style.display = 'block'
+    let resetButton = document.querySelector('#reset')
+    resetButton.addEventListener('click', () => {
+        location.reload()
+    })
 }
 
 
 
-
+play()
