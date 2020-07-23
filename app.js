@@ -168,7 +168,7 @@ class User extends Enemy {
         
         if (roomI === rooms.length) {
             alert('you win!!!!!!')
-            endGame()
+            victory()
             return
         }
         chuey.currentRoom = rooms[roomI]
@@ -187,14 +187,14 @@ class User extends Enemy {
         let screen = document.querySelector('.screen')
         chuey.currentRoom = safeRoom
         screen.style.backgroundImage = 'url(' + chuey.currentRoom.background + ')'
-        const menu = document.querySelector('.menu-buttons')
         const buttons = document.querySelectorAll('.menu')
-        const trainButton = document.querySelector('#train')
-        
         buttons[1].innerText = 'Heal'
         buttons[2].innerText = 'Train'
         buttons[1].removeEventListener('click', chuey.potionFunction)
         buttons[2].removeEventListener('click', chuey.attackFunction)
+        if (roomI === rooms.length) {
+            victory()
+        }
         buttons[0].addEventListener('click',  chuey.changeActive)
         buttons[1].addEventListener('click', chuey.heal)
         buttons[2].addEventListener('click', chuey.train)
@@ -418,12 +418,29 @@ function endGame() {
     container.style.display = 'none'
     let gameOverScreen = document.querySelector('.game-over')
     gameOverScreen.style.display = 'block'
-    let resetButton = document.querySelector('#reset')
+    setTimeout(() => {
+        gameOverScreen.style.opacity = '1'
+    }, 500)
+    
+    let resetButton = document.querySelectorAll('.reset')[0]
     resetButton.addEventListener('click', () => {
         location.reload()
     })
 }
-
+function victory() {
+    let container = document.querySelector('.container')
+    container.style.display = 'none'
+    let victoryScreen = document.querySelector('.victory')
+    victoryScreen.style.display = 'block'
+    setTimeout(() => {
+        victoryScreen.style.opacity = '1'
+    }, 500)
+    
+    let resetButton = document.querySelectorAll('.reset')[1]
+    resetButton.addEventListener('click', () => {
+        location.reload()
+    })
+}
 
 
 play()
