@@ -188,7 +188,6 @@ class User extends Enemy {
         
         
     }
-   
     advanceRoom() {
         let screen = document.querySelector('.screen')
         chuey.currentRoom = safeRoom
@@ -208,13 +207,14 @@ class User extends Enemy {
         buttons[2].addEventListener('click', chuey.train)
     }
     attackFunction(){
+        const buttons = document.querySelectorAll('.menu')
+        buttons[2].removeEventListener('click', chuey.attackFunction)
         const pokeTable = document.querySelector('.poke-menu')
         pokeTable.style.display = 'none'
         if(chuey.active.isKod()) {
             updateLog('You must switch pokemon or heal!!!                                 ')
             return 
         }
-        console.log(chuey)
         const enemyPoke = document.querySelector('.enemy')
         if (chuey.currentRoom.enemies != null) {
             chuey.attack(chuey.currentRoom.enemies)
@@ -224,6 +224,7 @@ class User extends Enemy {
                 setTimeout(() => {
                     chuey.currentRoom.enemies.removeActive()
                     chuey.currentRoom.enemies.setActive()
+                    buttons[2].addEventListener('click', chuey.attackFunction)
                 }, 500)
               
             } else if (chuey.currentRoom.enemies.active.isKod()) {
@@ -237,24 +238,31 @@ class User extends Enemy {
             } else {
                 setTimeout(() => {
                     chuey.currentRoom.enemies.attack(chuey)
+                    buttons[2].addEventListener('click', chuey.attackFunction)
                 },500)
                 
                 
             }
+            
         } else {
             let screen = document.querySelector('.screen')
             
             chuey.advanceRoom()
         }
+        
     }
    
     potionFunction(){
         const pokeTable = document.querySelector('.poke-menu')
         pokeTable.style.display = 'none'
+        const buttons = document.querySelectorAll('.menu')
+        
         if(chuey.potions) {
+            buttons[1].removeEventListener('click', chuey.potionFunction)
             chuey.usePotion()
             setTimeout(() => {
                 chuey.currentRoom.enemies.attack(chuey)
+                buttons[1].addEventListener('click', chuey.potionFunction)
             }, 400)
             
         } else {
@@ -353,7 +361,6 @@ class User extends Enemy {
             }  
         });
     }
-
     setActive(ind) {
         const playerDiv = document.querySelector('.player')
         playerDiv.style.opacity = '0'
@@ -464,8 +471,6 @@ test1.currentRoom = forest
 test2.currentRoom = cave
 test3.currentRoom = glacier
 test4.currentRoom = victoryRoad
-// console.log(test2.isDefeated())
-// console.log(test2.pokemon)
 
 
 
@@ -491,7 +496,6 @@ function play() {
     chuey.battle()
    
 }
-
 function endGame() {
     let container = document.querySelector('.container')
     container.style.display = 'none'
@@ -520,7 +524,6 @@ function victory() {
         location.reload()
     })
 }
-
 function updateLog(string) {
     const log = document.querySelector('#log');
     log.value = logNumber + '. ' + string + log.value 
