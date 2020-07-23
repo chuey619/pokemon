@@ -44,6 +44,8 @@ body {
     font-size: 1rem;
     background-color: darkgrey;
     letter-spacing: .5px;
+    box-sizing: border-box;
+    border: 5px double black;
 }
 
 #train {
@@ -173,4 +175,11 @@ h2 {
     font-size: 1rem;
     background-color: darkgrey;
     letter-spacing: .5px;
+}
+
+#log {
+    border: 4px double black;
+    font-family: pokemon;
+    color: black;
+    line-height: 1.5rem;
 }

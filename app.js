@@ -67,13 +67,13 @@ class Enemy {
     attack(target) {
         if(target.active.weakness === this.active.type) {
             target.active.currentHp -= this.active.attack * 1.5
-            alert(`Super effective! The enemies ${this.active.name} attacked for ${this.active.attack *1.5} damage!`)
+            updateLog(`Super effective! The enemies ${this.active.name} attacked for ${this.active.attack *1.5} damage!                                 `)
         } else if (this.active.weakness === target.active.type) {
             target.active.currentHp -= this.active.attack * .5
-            alert(`Not very effective! The enemies ${this.active.name} attacked for ${this.active.attack * .5} damage!`)
+            updateLog(`Not very effective! The enemies ${this.active.name} attacked for ${this.active.attack * .5} damage!                                 `)
         } else {
             target.active.currentHp -= this.active.attack
-            alert(`The enemies ${this.active.name} attacked for ${this.active.attack} damage!`)
+            updateLog(`The enemies ${this.active.name} attacked for ${this.active.attack} damage!                                 `)
         }
         
        
@@ -104,13 +104,13 @@ class Enemy {
 
         if(this.pokemon) {
             this.active = this.pokemon[0]
-            alert(`enemy sent out ${this.active.name}`)
+            updateLog(`enemy sent out ${this.active.name}                                 `)
             this.changeHp()
             enemyPoke.setAttribute('src', this.active.img)
         } 
     }
     removeFromRoom() {
-        alert(`you defeated ${this.name} and decide to set up camp for the night`)
+        updateLog(`you defeated ${this.name} and decide to set up camp for the night                                 `)
         this.currentRoom.enemies = null
     }
     isDefeated() {
@@ -127,13 +127,13 @@ class User extends Enemy {
     attack(target) {
         if(target.active.weakness === this.active.type) {
             target.active.currentHp -= this.active.attack * 1.5
-            alert(`Super effective! Your ${this.active.name} attacked for ${this.active.attack * 1.5} damage!`)
+            updateLog(`Super effective! Your ${this.active.name} attacked for ${this.active.attack * 1.5} damage!                                   `)
         } else if (this.active.weakness === target.active.type) {
             target.active.currentHp -= this.active.attack * .5
-            alert(`Not very effective! Yours ${this.active.name} attacked for ${this.active.attack * .5} damage!`)
+            updateLog(`Not very effective! Your ${this.active.name} attacked for ${this.active.attack * .5} damage!                                 `)
         } else {
-            target.active.currentHp -= this.active.attack
-            alert(`Your ${this.active.name} attacked for ${this.active.attack} damage!`)
+            target.active.currentHp -= this.active.attack 
+            updateLog(`Your ${this.active.name} attacked for ${this.active.attack} damage!                                                            `)
         }
         
         chuey.currentRoom.enemies.changeHp()
@@ -147,12 +147,12 @@ class User extends Enemy {
     usePotion() {
     
             if(this.active.currentHp + 25 < this.active.hp) {
-                alert(`Healed your ${this.active.name} for 25 hp`)
+                updateLog(`Healed your ${this.active.name} for 25 hp!                                 `)
                 this.active.currentHp += 25;
                 this.potions -= 1;
                 this.changeHp()
             } else {
-                alert(`Fully healed your ${this.active.name}`)
+                updateLog(`Fully healed your ${this.active.name}                                 `)
                 this.active.currentHp = this.active.hp;
                 this.potions -= 1;
                 this.changeHp()
@@ -166,13 +166,9 @@ class User extends Enemy {
         const enemyPoke = document.querySelector('.enemy')
         enemyPoke.style.display = 'block'
         
-        if (roomI === rooms.length) {
-            alert('you win!!!!!!')
-            victory()
-            return
-        }
+    
         chuey.currentRoom = rooms[roomI]
-        alert(`Moving to ${chuey.currentRoom.name}`)
+        updateLog(`Moving to ${chuey.currentRoom.name}                                 `)
         screen.style.backgroundImage = 'url(' + chuey.currentRoom.background + ')'
         roomI ++
         console.log(chuey.currentRoom)
@@ -201,7 +197,7 @@ class User extends Enemy {
     }
     attackFunction(){
         if(chuey.active.isKod()) {
-            alert('You must switch pokemon or heal!!!')
+            updateLog('You must switch pokemon or heal!!!                                 ')
             return 
         }
         console.log(chuey)
@@ -209,7 +205,7 @@ class User extends Enemy {
         if (chuey.currentRoom.enemies != null) {
             chuey.attack(chuey.currentRoom.enemies)
             if(chuey.currentRoom.enemies.active.isKod() && chuey.currentRoom.enemies.pokemon.length > 1){
-                alert(`defeated the enemies ${chuey.currentRoom.enemies.active.name}`)
+                updateLog(`Defeated the enemies ${chuey.currentRoom.enemies.active.name}!                                 `)
                 chuey.active.getXP(chuey.currentRoom.enemies.active.xpGiven)
                 chuey.currentRoom.enemies.removeActive()
                 chuey.currentRoom.enemies.setActive()
@@ -234,7 +230,7 @@ class User extends Enemy {
             chuey.usePotion()
             chuey.currentRoom.enemies.attack(chuey)
         } else {
-            alert('all out of potions')
+            updateLog('all out of potions                                 ')
         }
         
     }
@@ -249,7 +245,7 @@ class User extends Enemy {
         buttons[1].addEventListener('click', chuey.potionFunction)
     }
     train() {
-        alert(`You trained your pokemon and they gained 100xp`)
+        updateLog(`You trained your pokemon and they gained 100xp                                 `)
         for (let poke of chuey.pokemon) {
             poke.currentXp += 100
             poke.levelUp()
@@ -257,7 +253,7 @@ class User extends Enemy {
         chuey.changeRoom()
     }
     heal() {
-        alert(`You healed your pokemon`)
+        updateLog(`You healed your pokemon                                 `)
         for (let poke of chuey.pokemon) {
             poke.currentHp = poke.hp
         }
@@ -284,11 +280,11 @@ class User extends Enemy {
         poke2[2].innerText = `${chuey.pokemon[2].currentHp}`
         poke2[3].innerText = `${chuey.pokemon[2].type}`
         rows.forEach(element => {
-            console.log(element.id)
+           
             if (element.id) {
                 element.addEventListener('click', (event) => {
                     let index = parseInt(element.id[4])
-                    console.log(index)
+                   
                     if (chuey.active != chuey.pokemon[index]) {
                         if(chuey.pokemon[index].isKod()) {
                             // alert('That pokemon is knocked out!')
@@ -297,7 +293,7 @@ class User extends Enemy {
                             chuey.setActive(index)
                             chuey.changeHp()
                             pokeTable.style.display = 'none'
-                            alert(`Switched to ${chuey.active.name}`)
+                            updateLog(`Switched to ${chuey.active.name}                                 `)
                             if(chuey.currentRoom.enemies != null) {
                                 chuey.currentRoom.enemies.attack(chuey)
                             } else {
@@ -408,10 +404,6 @@ function play() {
     chuey.battle()
    
 }
-// console.log(chuey.currentRoom.isCleared(
-    // squirtle.currentHp = 0
-    // charmander.currentHp = 0
-    // bulbasoar.currentHp = 0
 
 function endGame() {
     let container = document.querySelector('.container')
@@ -442,5 +434,23 @@ function victory() {
     })
 }
 
-
+function updateLog(string) {
+    const log = document.querySelector('#log');
+    //log.innerText = ''
+    // stringArr = string.split('')
+    // console.log(stringArr)
+    // for (let i = 0; i < stringArr.length; i++) {
+    //     log.innerText = log.innerText + stringArr[i]
+    // }
+    // if (log.innerText === '') {
+    //     log.innerHTML = string
+    // } else {
+    //     let newText = log.innerHTML + '</br>' + string
+    //     log.innerHTML = newText
+    // }
+    let newString = log.innerText + string
+    
+    log.value = string + log.value 
+    
+}
 play()
