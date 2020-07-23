@@ -192,7 +192,9 @@ class User extends Enemy {
     advanceRoom() {
         let screen = document.querySelector('.screen')
         chuey.currentRoom = safeRoom
+        chuey.random()
         screen.style.backgroundImage = 'url(' + chuey.currentRoom.background + ')'
+        
         const buttons = document.querySelectorAll('.menu')
         buttons[1].innerText = 'Heal'
         buttons[2].innerText = 'Train'
@@ -271,6 +273,7 @@ class User extends Enemy {
         buttons[1].addEventListener('click', chuey.potionFunction)
     }
     train() {
+        
         const pokeTable = document.querySelector('.poke-menu')
         pokeTable.style.display = 'none'
         updateLog(`You trained your pokemon and they gained 100xp                                 `)
@@ -355,12 +358,13 @@ class User extends Enemy {
         const playerDiv = document.querySelector('.player')
         playerDiv.style.opacity = '0'
         chuey.active = chuey.pokemon[ind]
+        chuey.changeHp()
         setTimeout(() => {
             
             const myPoke = document.querySelector('.player img')
             myPoke.setAttribute('src', chuey.active.img)
             playerDiv.style.opacity = '1'
-            chuey.changeHp()
+            
         }, 200)
         
     }
@@ -370,6 +374,33 @@ class User extends Enemy {
            return element.currentHp < 1;
         })
         return output
+    }
+    findPotion() {
+        updateLog(`You found a potion on your way to camp!                                               `)
+        chuey.potions += 1
+    }
+    pokemonBrawl() {
+        updateLog(`Your pokemon got angry and fought each other!                                               `)
+        for (let poke of chuey.pokemon) {
+            poke.currentHp -= 5
+        }
+    }
+    bonded() {
+        updateLog(`Your pokemon seem to be forming a tight bond! They all gain 50 xp                                                  `)
+        for (let poke of chuey.pokemon) {
+            poke.currentXp += 50
+            poke.levelUp()
+        }
+    }
+    random() {
+        let randomInt = Math.floor(Math.random() * 7)
+        if (randomInt === 1) {
+            chuey.findPotion()
+        } else if (randomInt === 2) {
+            chuey.pokemonBrawl()
+        } else if (randomInt === 3) {
+            chuey.bonded()
+        }
     }
     }
     

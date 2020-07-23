@@ -8,6 +8,9 @@ body {
     height: 100vh;
     margin: 0 auto;
 }
+button {
+    cursor: pointer;
+}
 .container {
     font-family: pokemon;
     width: 100%;
@@ -35,7 +38,7 @@ body {
     display: flex;
     justify-content: space-evenly;
     border: 5px double black;
-    box-sizing: content-box;
+    box-sizing: border-box;
     
     
 }
@@ -54,8 +57,6 @@ body {
 #train {
     display: none;
 }
-
-
 .player {
     bottom: 50px;
     height: 30%;
@@ -125,9 +126,11 @@ body {
 table {
     border: 1px solid black;
     display: none;
+    
 }
 th {
     border-top: 1px solid black;
+    cursor: pointer;
 }
 
 .game-over {
