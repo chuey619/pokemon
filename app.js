@@ -47,7 +47,7 @@ class PokeMon {
                 this.currentHp = this.hp
             }
             chuey.changeHp()
-            alert(`Your ${this.name} leveled up to level ${this.level} and gained attack +${this.level * 3} and Max HP +${this.level * 4}`)
+            updateLog(`Your ${this.name} leveled up to level ${this.level} and gained attack +${this.level * 3} and Max HP +${this.level * 4}!                                 ` )
         }
     }
 }
@@ -83,7 +83,7 @@ class Enemy {
         console.log(target.active.currentHp)
         target.changeHp()
         if(target.gameOver()) {
-            endGame()
+            setTimeout(endGame, 500)
         }
         
         //alert(`The ememies ${this.active.name} attacked your ${target.active.name} for ${this.active.attack} damage`)
@@ -104,7 +104,7 @@ class Enemy {
 
         if(this.pokemon) {
             this.active = this.pokemon[0]
-            updateLog(`enemy sent out ${this.active.name}                                 `)
+            updateLog(`${this.currentRoom.enemies.name} sent out ${this.active.name}                                 `)
             this.changeHp()
             enemyPoke.setAttribute('src', this.active.img)
         } 
@@ -141,6 +141,9 @@ class User extends Enemy {
     changeHp() {
         const playerHealthBar = document.querySelector('#user')
         let percent =  (this.active.currentHp /  this.active.hp) * 100
+        if(percent < 0) {
+            percent = 0
+        }
         playerHealthBar.style.width = percent + '%'
         playerHealthBar.innerText = this.active.currentHp + '/' + this.active.hp
     }
@@ -165,18 +168,22 @@ class User extends Enemy {
         const screen = document.querySelector('.screen')
         const enemyPoke = document.querySelector('.enemy')
         enemyPoke.style.display = 'block'
-        
-    
         chuey.currentRoom = rooms[roomI]
         updateLog(`Moving to ${chuey.currentRoom.name}                                 `)
+        setTimeout(() => {
+           
+            
+        }, 500)
         screen.style.backgroundImage = 'url(' + chuey.currentRoom.background + ')'
         roomI ++
-        console.log(chuey.currentRoom)
-        chuey.currentRoom.enemies.changeHp()
-        const enemyPokeImg = document.querySelector('.enemy img')
         
+        const enemyPokeImg = document.querySelector('.enemy img')
+    
         enemyPokeImg.setAttribute('src', this.currentRoom.enemies.active.img)
         chuey.battle()
+        chuey.currentRoom.enemies.changeHp()
+        
+        
     }
    
     advanceRoom() {
@@ -207,15 +214,24 @@ class User extends Enemy {
             if(chuey.currentRoom.enemies.active.isKod() && chuey.currentRoom.enemies.pokemon.length > 1){
                 updateLog(`Defeated the enemies ${chuey.currentRoom.enemies.active.name}!                                 `)
                 chuey.active.getXP(chuey.currentRoom.enemies.active.xpGiven)
-                chuey.currentRoom.enemies.removeActive()
-                chuey.currentRoom.enemies.setActive()
+                setTimeout(() => {
+                    chuey.currentRoom.enemies.removeActive()
+                    chuey.currentRoom.enemies.setActive()
+                }, 500)
+              
             } else if (chuey.currentRoom.enemies.active.isKod()) {
                 chuey.active.getXP(chuey.currentRoom.enemies.active.xpGiven)
-                chuey.currentRoom.enemies.removeFromRoom()
-                enemyPoke.style.display = 'none'
-                chuey.advanceRoom()
+                setTimeout(() => {
+                    chuey.currentRoom.enemies.removeFromRoom()
+                    enemyPoke.style.display = 'none'
+                    chuey.advanceRoom()
+                }, 500)
+                
             } else {
-                chuey.currentRoom.enemies.attack(chuey)
+                setTimeout(() => {
+                    chuey.currentRoom.enemies.attack(chuey)
+                },500)
+                
                 
             }
         } else {
@@ -250,7 +266,10 @@ class User extends Enemy {
             poke.currentXp += 100
             poke.levelUp()
         }
-        chuey.changeRoom()
+        setTimeout(() => {
+            chuey.changeRoom()
+        }, 500)
+        
     }
     heal() {
         updateLog(`You healed your pokemon                                 `)
@@ -258,7 +277,10 @@ class User extends Enemy {
             poke.currentHp = poke.hp
         }
         chuey.changeHp()
-        chuey.changeRoom()
+        setTimeout(() => {
+            chuey.changeRoom()
+        }, 500)
+        
     }
     changeActive() {
         const pokeTable = document.querySelector('.poke-menu')
