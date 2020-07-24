@@ -34,6 +34,9 @@ button {
     border-right: 3px solid black;
     
 }
+.no-show {
+    display: none;
+}
 .menu-buttons {
     height: 20%;
     width: 80%;
