@@ -204,7 +204,10 @@ class User extends Enemy {
         buttons[1].removeEventListener('click', user.potionFunction)
         buttons[2].removeEventListener('click', user.attackFunction)
         if (roomI === rooms.length) {
-            victory()
+            setTimeout(() => {
+                victory()
+            }, 500)
+            
         }
         buttons[0].addEventListener('click',  user.changeActive)
         buttons[1].addEventListener('click', user.heal)
@@ -218,6 +221,7 @@ class User extends Enemy {
         pokeTable.style.display = 'none'
         if(user.active.isKod()) {
             updateLog('You must switch pokemon or heal!!!                                 ')
+            user.changeActive()
             buttons[1].addEventListener('click', user.potionFunction)
             buttons[2].addEventListener('click', user.attackFunction)
             return 
@@ -237,11 +241,11 @@ class User extends Enemy {
               
             } else if (user.currentRoom.enemies.active.isKod()) {
                 user.active.getXP(user.currentRoom.enemies.active.xpGiven)
-               // setTimeout(() => {
+                setTimeout(() => {
                     user.currentRoom.enemies.removeFromRoom()
                     enemyPoke.style.display = 'none'
                     user.advanceRoom()
-                //}, 500)
+                }, 500)
                 
             } else {
                 setTimeout(() => {
@@ -319,7 +323,8 @@ class User extends Enemy {
         
     }
     changeActive() {
-        
+        const buttons = document.querySelectorAll('.menu')
+        buttons[0].style.display = 'none'
         const pokeTable = document.querySelector('.poke-menu')
         pokeTable.style.display = 'block'
         const rows = document.querySelectorAll('tr')
@@ -346,18 +351,23 @@ class User extends Enemy {
                     let index = parseInt(element.id[4])
                    
                     if (user.active != user.pokemon[index]) {
+                        
                         if(user.pokemon[index].isKod()) {
                             // alert('That pokemon is knocked out!')
                             return
                         } else {
-                            
+                            buttons[2].removeEventListener('click', user.attackFunction)
+                            buttons[1].removeEventListener('click', user.potionFunction)
                             user.setActive(index)
+                            buttons[0].style.display = 'inline'
                             
                             pokeTable.style.display = 'none'
                             updateLog(`Switched to ${user.active.name}                                 `)
                             if(user.currentRoom.enemies != null) {
                                 setTimeout(() => {
                                     user.currentRoom.enemies.attack(user)
+                                    buttons[2].addEventListener('click', user.attackFunction)
+                                    buttons[1].addEventListener('click', user.potionFunction)
                                 }, 700)
                                 
                             } else {
@@ -436,20 +446,20 @@ const charmander = new PokeMon('charmander','fire', 0, './assets/pokePics/userCh
 //forest pokes
 const forestSquirtle = new PokeMon('squirtle', 'water', 0, './assets/pokePics/squirtle.png')
 const forestBulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/pokePics/bulb.png')
-const forestBulbasoar2 = new PokeMon('bulbasoar', 'grass', 1, './assets/pokePics/bulb.png')
+const forestSnivy = new PokeMon('snivy', 'grass', 1, './assets/pokePics/snivy.png')
 //cave pokes
 const caveSquirtle = new PokeMon('squirtle', 'water', 0,  './assets/pokePics/squirtle.png')
 const caveBulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/pokePics/bulb.png')
 const caveCharmander = new PokeMon('charmander','fire', 1, './assets/pokePics/charmander.png')
 //glacier pokes
 
-const iceBulb = new PokeMon('bulbasoar', 'grass', 1, './assets/pokePics/bulb.png')
+const iceSpheal = new PokeMon('spheal', 'water', 1, './assets/pokePics/spheal.png')
 const iceSquirtle = new PokeMon('squirtle','water', 1, './assets/pokePics/squirtle.png')
 const iceSquirtle2 = new PokeMon('squirtle', 'water', 2, './assets/pokePics/squirtle.png')
 //champ pokes
 const champSquirtle = new PokeMon('squirtle', 'water', 1, './assets/pokePics/squirtle.png')
 const champBulbasoar = new PokeMon('bulbasoar', 'grass', 2, './assets/pokePics/bulb.png')
-const champCharmander = new PokeMon('charmander','fire', 2, './assets/pokePics/charmander.png')
+const champCharmander = new PokeMon('charizard','fire', 2, './assets/pokePics/charmander.png')
 // enemies
 const forestEnemy = new Enemy('The Forest King')
 const caveEnemy = new Enemy('The Cave Dweller')
@@ -458,11 +468,11 @@ const pokeChamp = new Enemy('The Champ')
 //give neemies pokes
 forestEnemy.addPoke(forestSquirtle)
 forestEnemy.addPoke(forestBulbasoar)
-forestEnemy.addPoke(forestBulbasoar2)
+forestEnemy.addPoke(forestSnivy)
 caveEnemy.addPoke(caveSquirtle)
 caveEnemy.addPoke(caveBulbasoar)
 caveEnemy.addPoke(caveCharmander)
-glacierEnemy.addPoke(iceBulb)
+glacierEnemy.addPoke(iceSpheal)
 glacierEnemy.addPoke(iceSquirtle)
 glacierEnemy.addPoke(iceSquirtle2)
 pokeChamp.addPoke(champBulbasoar)
