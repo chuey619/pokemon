@@ -155,7 +155,7 @@ class User extends Enemy {
         playerHealthBar.innerText = this.active.currentHp + '/' + this.active.hp
     }
     usePotion() {
-    
+            
             if(this.active.currentHp + 25 < this.active.hp) {
                 updateLog(`Healed your ${this.active.name} for 25 hp!                                 `)
                 this.active.currentHp += 25;
@@ -214,7 +214,9 @@ class User extends Enemy {
         buttons[2].addEventListener('click', user.train)
     }
     attackFunction(){
+        
         const buttons = document.querySelectorAll('.menu')
+        buttons[0].style.display = 'inline'
         buttons[1].removeEventListener('click', user.potionFunction)
         buttons[2].removeEventListener('click', user.attackFunction)
         const pokeTable = document.querySelector('.poke-menu')
@@ -269,6 +271,7 @@ class User extends Enemy {
         const pokeTable = document.querySelector('.poke-menu')
         pokeTable.style.display = 'none'
         const buttons = document.querySelectorAll('.menu')
+        buttons[0].style.display = 'inline'
         
         if(user.potions) {
             buttons[2].removeEventListener('click', user.attackFunction)
@@ -360,6 +363,7 @@ class User extends Enemy {
                             buttons[1].removeEventListener('click', user.potionFunction)
                             user.setActive(index)
                             buttons[0].style.display = 'inline'
+                            
                             
                             pokeTable.style.display = 'none'
                             updateLog(`Switched to ${user.active.name}                                 `)
