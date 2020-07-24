@@ -457,7 +457,7 @@ const caveBulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/pokePics/bu
 const caveCharmander = new PokeMon('charmander','fire', 1, './assets/pokePics/charmander.png')
 //glacier pokes
 
-const iceSpheal = new PokeMon('spheal', 'water', 1, './assets/pokePics/spheal.png')
+const iceSpheal = new PokeMon('spheal', 'grass', 1, './assets/pokePics/spheal.png')
 const iceSquirtle = new PokeMon('squirtle','water', 1, './assets/pokePics/squirtle.png')
 const iceSquirtle2 = new PokeMon('squirtle', 'water', 2, './assets/pokePics/squirtle.png')
 //champ pokes
