@@ -6,6 +6,7 @@ USER STORIES
 - I want to be able to choose my actions
 - I want a visual representation of those actions
 - I want to know when I win / lose
+- I can only take one action before the computer takes an action
 
 INSTRUCTIONS
 - Simply click the action you wish to take
