@@ -116,7 +116,7 @@ class Enemy {
         } 
     }
     removeFromRoom() {
-        updateLog(`you defeated ${this.name} and decide to set up camp for the night                                 `)
+        updateLog(`You defeated ${this.name} and decide to set up camp for the night                                 `)
         this.currentRoom.enemies = null
     }
     isDefeated() {
