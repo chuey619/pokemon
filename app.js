@@ -237,11 +237,11 @@ class User extends Enemy {
               
             } else if (user.currentRoom.enemies.active.isKod()) {
                 user.active.getXP(user.currentRoom.enemies.active.xpGiven)
-                setTimeout(() => {
+               // setTimeout(() => {
                     user.currentRoom.enemies.removeFromRoom()
                     enemyPoke.style.display = 'none'
                     user.advanceRoom()
-                }, 500)
+                //}, 500)
                 
             } else {
                 setTimeout(() => {
