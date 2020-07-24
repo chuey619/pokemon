@@ -430,26 +430,26 @@ class User extends Enemy {
 
     
 //user pokes
-const squirtle = new PokeMon('squirtle', 'water', 0, './assets/squirtlePixel.png')
-const bulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/UserBulb.png')
-const charmander = new PokeMon('charmander','fire', 0, './assets/userChar.png')
+const squirtle = new PokeMon('squirtle', 'water', 0, './assets/pokePics/squirtlePixel.png')
+const bulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/pokePics/UserBulb.png')
+const charmander = new PokeMon('charmander','fire', 0, './assets/pokePics/userChar.png')
 //forest pokes
-const forestSquirtle = new PokeMon('squirtle', 'water', 0, './assets/squirtle.png')
-const forestBulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/bulb.png')
-const forestBulbasoar2 = new PokeMon('bulbasoar', 'grass', 1, './assets/bulb.png')
+const forestSquirtle = new PokeMon('squirtle', 'water', 0, './assets/pokePics/squirtle.png')
+const forestBulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/pokePics/bulb.png')
+const forestBulbasoar2 = new PokeMon('bulbasoar', 'grass', 1, './assets/pokePics/bulb.png')
 //cave pokes
-const caveSquirtle = new PokeMon('squirtle', 'water', 0,  './assets/squirtle.png')
-const caveBulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/bulb.png')
-const caveCharmander = new PokeMon('charmander','fire', 1, './assets/charmander.png')
+const caveSquirtle = new PokeMon('squirtle', 'water', 0,  './assets/pokePics/squirtle.png')
+const caveBulbasoar = new PokeMon('bulbasoar', 'grass', 0, './assets/pokePics/bulb.png')
+const caveCharmander = new PokeMon('charmander','fire', 1, './assets/pokePics/charmander.png')
 //glacier pokes
 
-const iceBulb = new PokeMon('bulbasoar', 'grass', 1, './assets/bulb.png')
-const iceSquirtle = new PokeMon('squirtle','water', 1, './assets/squirtle.png')
-const iceSquirtle2 = new PokeMon('squirtle', 'water', 2, './assets/squirtle.png')
+const iceBulb = new PokeMon('bulbasoar', 'grass', 1, './assets/pokePics/bulb.png')
+const iceSquirtle = new PokeMon('squirtle','water', 1, './assets/pokePics/squirtle.png')
+const iceSquirtle2 = new PokeMon('squirtle', 'water', 2, './assets/pokePics/squirtle.png')
 //champ pokes
-const champSquirtle = new PokeMon('squirtle', 'water', 1, './assets/squirtle.png')
-const champBulbasoar = new PokeMon('bulbasoar', 'grass', 2, './assets/bulb.png')
-const champCharmander = new PokeMon('charmander','fire', 2, './assets/charmander.png')
+const champSquirtle = new PokeMon('squirtle', 'water', 1, './assets/pokePics/squirtle.png')
+const champBulbasoar = new PokeMon('bulbasoar', 'grass', 2, './assets/pokePics/bulb.png')
+const champCharmander = new PokeMon('charmander','fire', 2, './assets/pokePics/charmander.png')
 // enemies
 const forestEnemy = new Enemy('The Forest King')
 const caveEnemy = new Enemy('The Cave Dweller')
