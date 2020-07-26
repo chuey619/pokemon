@@ -524,8 +524,10 @@ function play() {
 }
 //called on defeat
 function endGame() {
-    let container = document.querySelector('.container')
-    container.style.display = 'none'
+    let screen = document.querySelector('.screen')
+    let menu = document.querySelector('.menu-buttons')
+    menu.style.display = 'none'
+    screen.style.display = 'none'
     let gameOverScreen = document.querySelector('.game-over')
     gameOverScreen.style.display = 'block'
     setTimeout(() => {
@@ -539,8 +541,10 @@ function endGame() {
 }
 //called on win
 function victory() {
-    let container = document.querySelector('.container')
-    container.style.display = 'none'
+    let screen = document.querySelector('.screen')
+    screen.style.display = 'none'
+    let menu = document.querySelector('.menu-buttons')
+    menu.style.display = 'none'
     let victoryScreen = document.querySelector('.victory')
     victoryScreen.style.display = 'block'
     setTimeout(() => {

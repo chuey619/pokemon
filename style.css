@@ -4,6 +4,7 @@
 }
 html, body {
     font-family: pokemon;
+    font-weight: 400;
     width: 100vw;
     height: 100vh;
     margin: 0 auto;
@@ -135,9 +136,10 @@ th {
     cursor: pointer;
 }
 .game-over {
-    margin-top: 20%;
-    width: 100%;
+    position: relative;
+    width: 80%;
     height: 100%;
+    margin: 0 auto;
     background-color: black;
     display: none;
     opacity: 0;
@@ -155,23 +157,31 @@ th {
     letter-spacing: .5px;
 }
 h1 {
+    padding-top: 20%;
     color: white;
     font-size: 5rem;
+    
 }
 h2 {
     color: white;
 }
 .victory {
+    position: relative;
     background: #000;
     overflow: hidden;
     display: none;
     opacity: 0;
-    width: 100%;
+    width: 80%;
     height: 100%;
     background-color: black;
     transition: opacity 3s;
     text-align: center;
-    margin-top: 20%;
+    
+    margin: 0 auto;
+    margin-top: 5%;
+}
+.victory h1 {
+  padding-top: 0;
 }
 .victory button {
     font-family: pokemon;
@@ -194,12 +204,13 @@ h2 {
         flex-direction: column;
         align-items: flex-start;
         flex-wrap: nowrap;
-        height: 30%;
+        height: 50%;
     }
     .menu {
         margin: 0;
         flex-grow: 1;
         font-size: small;
+        height: 30%;
     }
     #log {
         max-width: 100%;
